@@ -1,11 +1,11 @@
+본 문서는 공식 홈페이지에서 제공하는 튜토리얼을 따르고 있습니다. 하지만, 튜토리얼을 따라하며 학습 시 필요한 내용이 추가될 수 있습니다.
+
 ## What is PyTorch?
 
 Python 기반의 데이터 사이언스 패키지로 다음과 같은 특징이 있습니다.
 
 - GPU 연산을 활용하여 NumPy 라이브러리 대체 가능
 - 쉽고 빠르게 적용할 수 있는 딥러닝 플랫폼
-
-
 
 ### Getting Started
 
@@ -80,7 +80,66 @@ Out:
 tensor([5.5000, 3.0000])
 ```
 
+또는, 이미 존재하는 Tensor를 기반으로 만들 수 있습니다. 이 방법은 이미 존재하는 Tensor의 특성(데이터 타입, Tensor 크기)를 다시 사용합니다. 명확한 이해를 위해 공식 문저에서 하나의 예제로 진행한 부분을 두 개의 예제로 살펴보겠습니다.
+
+```python
+tensor = torch.tensor((), dtype=torch.int32)
+print(tensor)
+tensor = tensor.new_ones((5, 3))
+print(tensor)
+```
+
+Out:
+```python
+tensor([], dtype=torch.int32)
+tensor([[1, 1, 1],
+        [1, 1, 1],
+        [1, 1, 1],
+        [1, 1, 1],
+        [1, 1, 1]], dtype=torch.int32)
+```
+
+위와 같이 tensor 변수는 데이터 타입이 'int32'로 선언되었습니다. PyTorch API가 제공하는 new_ones 메소드를 통해 동일한 데이터 타입을 갖는 5x3 Tensor가 만들어졌습니다. 다음 예제는 Tensor의 크기를 유지한 채 데이터 타입을 변경하는 randn_like 메소드를 살펴보겠습니다.
+
+```python
+x = torch.randn_like(x, dtype=torch.float64)
+print(x)
+```
+
+Out:
+```python
+tensor([[ 0.8878,  0.8595, -1.3904],
+        [ 1.2738,  1.4750,  1.4978],
+        [-0.1091,  3.4508, -0.1414],
+        [-0.2331, -0.1284, -1.1919],
+        [ 1.1709, -0.9909,  1.3729]], dtype=torch.float64)
+```
+
+앞서 선언한 5x3 Tensor 변수의 데이터 타입이 변경되는 것을 확인할 수 있습니다. 명확한 이해를 위해 new_ones와 randn_like 메소드 정의를 살펴보겠습니다. 
+
+```python
+new_ones(size, dtype=None, device=None, requires_grad=False) → Tensor
+```
+매개변수로 입력되는 크기에 '1'로 채워진 Tensor를 반환합니다. 크기는 리스트, 튜플 또는 'torch.Size'로 입력 가능합니다. 또한 기본값으로 지정된 'dtype', 'device'가 'None' 이면 동일한 타입으로 반환합니다. [more detail](https://pytorch.org/docs/stable/tensors.html?highlight=new_ones#torch.Tensor.new_ones)
+
+
+```python
+torch.randn_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
+```
+매개변수로 입력되는 Tensor와 동일한 크기로 임의의 값을 갖는 Tensor를 반환합니다. 'new_ones'와는 다르게 'input'의 데이터 타입이 'Tensor'라는 것을 주의해야 합니다. 또한 반환되는 Tensor는 평균이 0이고 분산이 1인 정규 분포를 따릅니다. [more detail](https://pytorch.org/docs/stable/torch.html?highlight=randn_like#torch.randn_like)
+
+다음으로 Tensor의 크기를 얻는 방법을 알아보겠습니다.
+
+```python
+print(x.size())
+```
+
+Out:
+```python
+torch.Size([5, 3])
+```
+Tensor의 크기에서 유의할 점은 'torch.Size'는 튜플이며, 모든 튜플 연산을 지원합니다.
 
 ---
+#### Operations
 
-또는, 이미 존재하는 Tensor를 기반으로 만들 수 있습니다. 이 방법은 이미 존재하는 Tensor의 특성을 다시 사용합니다. ()
