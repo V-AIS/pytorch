@@ -18,7 +18,7 @@ from __future__ import print_function
 import torch
 ```
 
-초기화하지 않은 5x3 Matrix를 선언하면 다음과 같습니다.
+초기화하지 않은 5x3 Matrix를 선언하면 다음과 같습니다. (결과가 0.0000으로 보이지만 실제로는 초기화 되지 않은 값 입니다.)
 
 ```python
 x_empty = torch.empty(5, 3)
