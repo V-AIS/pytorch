@@ -99,7 +99,7 @@ tensor([[1, 1, 1],
         [1, 1, 1]], dtype=torch.int32)
 ```
 
-위와 같이 tensor 변수는 데이터 타입이 'int32'로 선언되었습니다. PyTorch API가 제공하는 new_ones 메소드를 통해 동일한 데이터 타입을 갖는 5x3 Tensor가 만들어졌습니다. 다음 예제는 Tensor의 크기를 유지한 채 데이터 타입을 변경하는 randn_like 메소드를 살펴보겠습니다.
+위와 같이 tensor 변수는 데이터 타입이 'int32'로 선언되었습니다. PyTorch API가 제공하는 `new_ones` 메소드를 통해 동일한 데이터 타입을 갖는 5x3 Tensor가 만들어졌습니다. 다음 예제는 Tensor의 크기를 유지한 채 데이터 타입을 변경하는 `randn_like` 메소드를 살펴보겠습니다.
 
 ```python
 x = torch.randn_like(x, dtype=torch.float64)
@@ -115,18 +115,18 @@ tensor([[ 0.8878,  0.8595, -1.3904],
         [ 1.1709, -0.9909,  1.3729]], dtype=torch.float64)
 ```
 
-앞서 선언한 5x3 Tensor 변수의 데이터 타입이 변경되는 것을 확인할 수 있습니다. 명확한 이해를 위해 new_ones와 randn_like 메소드 정의를 살펴보겠습니다. 
+앞서 선언한 5x3 Tensor 변수의 데이터 타입이 변경되는 것을 확인할 수 있습니다. 명확한 이해를 위해 `new_ones`와 `randn_like` 메소드 정의를 살펴보겠습니다. 
 
 ```python
 new_ones(size, dtype=None, device=None, requires_grad=False) → Tensor
 ```
-매개변수로 입력되는 크기에 '1'로 채워진 Tensor를 반환합니다. 크기는 리스트, 튜플 또는 'torch.Size'로 입력 가능합니다. 또한 기본값으로 지정된 'dtype', 'device'가 'None' 이면 동일한 타입으로 반환합니다. [more detail](https://pytorch.org/docs/stable/tensors.html?highlight=new_ones#torch.Tensor.new_ones)
+매개변수로 입력되는 크기에 '1'로 채워진 Tensor를 반환합니다. 크기는 리스트, 튜플 또는 `torch.Size`로 입력 가능합니다. 또한 기본값으로 지정된 'dtype', 'device'가 'None' 이면 동일한 타입으로 반환합니다. [more detail](https://pytorch.org/docs/stable/tensors.html?highlight=new_ones#torch.Tensor.new_ones)
 
 
 ```python
 torch.randn_like(input, dtype=None, layout=None, device=None, requires_grad=False) → Tensor
 ```
-매개변수로 입력되는 Tensor와 동일한 크기로 임의의 값을 갖는 Tensor를 반환합니다. 'new_ones'와는 다르게 'input'의 데이터 타입이 'Tensor'라는 것을 주의해야 합니다. 또한 반환되는 Tensor는 평균이 0이고 분산이 1인 정규 분포를 따릅니다. [more detail](https://pytorch.org/docs/stable/torch.html?highlight=randn_like#torch.randn_like)
+매개변수로 입력되는 Tensor와 동일한 크기로 임의의 값을 갖는 Tensor를 반환합니다. `new_ones`와는 다르게 'input'의 데이터 타입이 'Tensor'라는 것을 주의해야 합니다. 또한 반환되는 Tensor는 평균이 0이고 분산이 1인 정규 분포를 따릅니다. [more detail](https://pytorch.org/docs/stable/torch.html?highlight=randn_like#torch.randn_like)
 
 다음으로 Tensor의 크기를 얻는 방법을 알아보겠습니다.
 
@@ -138,7 +138,7 @@ Out:
 ```python
 torch.Size([5, 3])
 ```
-Tensor의 크기에서 유의할 점은 'torch.Size'는 튜플이며, 모든 튜플 연산을 지원합니다.
+Tensor의 크기에서 유의할 점은 `torch.Size`는 튜플이며, 모든 튜플 연산을 지원합니다.
 
 ---
 #### Operations
@@ -226,5 +226,49 @@ tensor([[1.2644, 1.5168, 0.3525],
         [0.9098, 0.1468, 0.7213],
         [1.0496, 0.3606, 1.2477]])
 ```
+
+어떤 연산자들은 `_`를 후미에 붙여 Tensor를 내부적으로 변화하게 합니다. 예를 들어 `x.copy_(y)`, `x.t_()`와 같은 연산은 `x`의 값을 변경합니다.
+또한, NumPy와 비슷한 방법으로 Tensor Indexing이 가능합니다.
+
+```python
+print(x_rand[:, 1])
+```
+
+Out:
+```python
+tensor([0.5885, 0.6941, 0.3362, 0.0083, 0.1905])
+```
+
+Resizing: Tensor의 크기를 변경하거나, 교체하고 싶으면 `torch.view`를 활용할 수 있습니다.
+
+```python
+x = torch.randn(4, 4)
+y = x.view(16)
+z = x.view(-1, 8)  # the size -1 is inferred from other dimensions
+print("Original Tensor : ", x)
+print("View (16) : ", y)
+print("View (-1, 8) : ", z)
+print(x.size(), y.size(), z.size())
+```
+
+Out:
+```
+Original Tensor :  tensor([[-0.6173,  1.2004, -1.2844, -0.2644],
+        [ 0.6293,  0.4616, -0.3915,  0.5739],
+        [-0.0571,  0.2191,  0.8552, -0.2459],
+        [ 0.0922, -0.1486,  1.1691,  0.2234]])
+View (16) :  tensor([-0.6173,  1.2004, -1.2844, -0.2644,  0.6293,  0.4616, -0.3915,  0.5739,
+        -0.0571,  0.2191,  0.8552, -0.2459,  0.0922, -0.1486,  1.1691,  0.2234])
+View (-1, 8) :  tensor([[-0.6173,  1.2004, -1.2844, -0.2644,  0.6293,  0.4616, -0.3915,  0.5739],
+        [-0.0571,  0.2191,  0.8552, -0.2459,  0.0922, -0.1486,  1.1691,  0.2234]])
+torch.Size([4, 4]) torch.Size([16]) torch.Size([2, 8])
+```
+
+`torch.view`에 입력되는 매개변수의 값에 따라 출력되는 Tensor의 Shape가 달라지는 것을 확인할 수 있습니다.
+
+
+만약 한 개의 요소를 갖는 Tensor가 있다면 `.item()`를 사용해서 Python
+
+
 
 ---
