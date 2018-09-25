@@ -339,3 +339,52 @@ tensor([2., 2., 2., 2., 2.])
 [2. 2. 2. 2. 2.]
 ```
 
+
+#### Converting NumPy Array to Torch Tensor
+
+다음 예제를 통해 NumPy Array를 자동으로 PyTorch Tensor로 변경하는 것을 확인할 수 있습니다.
+
+```python
+import numpy as np
+a = np.ones(5)
+b = torch.from_numpy(a)
+print(a)
+print(b)
+np.add(a, 1, out=a)
+print(a)
+print(b)
+```
+
+Out:
+```python
+[1. 1. 1. 1. 1.]
+tensor([1., 1., 1., 1., 1.], dtype=torch.float64)
+[2. 2. 2. 2. 2.]
+tensor([2., 2., 2., 2., 2.], dtype=torch.float64)
+```
+
+CharTensor를 제외한 모든 Tensors는 NumPy로 변경 또는 그 반대로 변경하는 것을 지원합니다. (All the Tensors on the CPU except a CharTensor support converting to NumPy and back.)
+
+---
+
+### CUDA Tensors
+
+Tensors는 `.to` 메소드를 통해 어떤 디바이스로 이동할 수 있습니다. **NVIDIA CUDA 필**
+
+```python
+# let us run this cell only if CUDA is available
+# We will use ``torch.device`` objects to move tensors in and out of GPU
+if torch.cuda.is_available():
+    device = torch.device("cuda")          # a CUDA device object
+    y = torch.ones_like(x, device=device)  # directly create a tensor on GPU
+    x = x.to(device)                       # or just use strings ``.to("cuda")``
+    z = x + y
+    print(z)
+    print(z.to("cpu", torch.double))       # ``.to`` can also change dtype together!
+```
+
+Out:
+```Python
+tensor([1.3797], device='cuda:0')
+tensor([1.3797], dtype=torch.float64)
+```
