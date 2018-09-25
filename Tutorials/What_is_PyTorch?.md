@@ -252,7 +252,7 @@ print(x.size(), y.size(), z.size())
 ```
 
 Out:
-```
+```python
 Original Tensor :  tensor([[-0.6173,  1.2004, -1.2844, -0.2644],
         [ 0.6293,  0.4616, -0.3915,  0.5739],
         [-0.0571,  0.2191,  0.8552, -0.2459],
@@ -267,8 +267,75 @@ torch.Size([4, 4]) torch.Size([16]) torch.Size([2, 8])
 `torch.view`에 입력되는 매개변수의 값에 따라 출력되는 Tensor의 Shape가 달라지는 것을 확인할 수 있습니다.
 
 
-만약 한 개의 요소를 갖는 Tensor가 있다면 `.item()`를 사용해서 Python
+만약 한 개의 요소를 갖는 Tensor가 있다면 `.item()`를 사용해서 Python 기본 자료형으로 변경할 수 있습니다. 다음 예제를 확인해보겠습니다.
 
+```python
+x = torch.rand(1)
+print(x)
+print(type(x))
+```
+
+Out:
+```python
+tensor([0.3797])
+<class 'torch.Tensor'>
+```
+
+```python
+py_x = x.item()
+print(py_x)
+print(type(py_x))
+```
+
+Out:
+```python
+0.3796881437301636
+<class 'float'>
+```
+
+위와 같이 torch.Tensor 형태의 데이터가 float 형태로 변경되는 것을 확인할 수 있습니다.
 
 
 ---
+
+### NumPy Bridge
+
+PyTorch의 Tensor를 NumPy의 Array로 변환하거나, 그 반대로 변환하는 것을 매우 쉽게 할 수 있습니다.
+Tensor와 Array는 기본 메모리를 공유하고 있기 때문에, 메모리의 주소를 변경하면 Tensor와 Array간 변경이 가능합니다.
+
+- PyTorch(Tensor) -> NumPy(Array) and NumPy(Array) -> PyTorch(Tensor)
+
+#### Converting a Torch Tensor to a NumPy Array
+
+```python
+a = torch.ones(5)
+print(a)
+```
+
+Out:
+```python
+tensor([1., 1., 1., 1., 1.])
+```
+
+```python
+b = a.numpy()
+print(b)
+```
+
+Out:
+```python
+[1. 1. 1. 1. 1.]
+```
+
+```python
+a.add_(1) # add 1
+print(a)
+print(b)
+```
+
+Out:
+```python
+tensor([2., 2., 2., 2., 2.])
+[2. 2. 2. 2. 2.]
+```
+
