@@ -1,4 +1,4 @@
-# PyTorch Tutorials by V-AIS
+# PyTorch Tutorials by V.ais
 
 PyTorch를 학습하기 위한 튜토리얼 및 샘플 예제 공간입니다.
 
