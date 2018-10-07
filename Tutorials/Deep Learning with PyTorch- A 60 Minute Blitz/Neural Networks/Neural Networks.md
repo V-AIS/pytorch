@@ -172,4 +172,50 @@ tensor([[ 0.1246, -0.0511,  0.0235,  0.1766, -0.0359, -0.0334,  0.1161,  0.0534,
           0.0282, -0.0202]], grad_fn=<ThAddmmBackward>)
 ```
 
+임의의 기울기(Gradients)를 갖는 역전파(Backprops)와 모든 파라미터들의 기울기 버퍼를 0으로 합니다:
+```python
+net.zero_grad()
+out.backward(torch.randn(1, 10))
+```
+
+#### NOTE
+`torch.nn`은 오직 미니-배치(mini-batches)만을 지원합니다. 전체 `torch.nn`패키지는 단일 샘플이 아닌 샘플의 미니-배치 입력만을 지원합니다.
+예를 들어, `nn.Conv2d`는 `nSamples x nChannels x Height x Width`의 4D Tensor를 가져옵니다.
+만약 단일 샘플이 있는 경우, `input.unsqueeze(0)`를 사용하여 가짜 배치-차원(batch-dimension)을 만들어야 합니다.
+
+계속 진행하기에 앞서 지금까지의 내용을 요약하겠습니다.
+#### Recap:
+- `torch.Tensor` - `backward()`와 같은 `autograd` 연산을 지원하는 다차원 배열입니다. 또한 Tensor에 관한 그라디언트를 유지합니다.
+- `nn.Module` - 신경망 모듈(Neural Network Module)입니다. 매개 변수를 캡슐화 하는 편리한 방법이며 GPU 연산 지원, 네트워크 결과 내보내기(Exporting), 네트워크 결과 불러오기(Loading) 등 다양한 기능을 지원합니다.
+- `nn.Parameter` - 모듈에 속성으로 지정되면 매개 변수로 자동 등록되는 Tensor의 일종입니다.
+- `autograd.Function` - `autograd` 연산의 앞(forward)과 backward 정의를 구현합니다. 모든 Tensor 연산은 Tensor를 작성하고, 그 히스토리를 인코딩하는 함수에 연결하는 하나 이상의 Function 노드를 작성합니다.
+
+#### At this point, we covered:
+- 신경망(Neural Network) 작성(정의)하기
+- 입력 처리 및 backward 호출
+
+#### Still Left:
+- 손실(Loss) 계산
+- 네트워크의 가중치(Weights) 업데이트
+
+### LOSS FUNCTION
+손실 함수는 (출력, 대상) 입력 쌍을 가져와서 목표 값에서 출력이 얼마나 떨어져 있는지 추정하는 값 입니다.
+nn 패키지에는 여러 가지 손실 함수가 있습니다. 간단한 손실은 다음과 같습니다: `nn.MSELoss`는 입력과 대상간의 평균 제곱 오차를 계산합니다.
+
+간단한 예제:
+```python
+output = net(input)
+target = torch.randn(10)  # a dummy target, for example
+target = target.view(1, -1)  # make it the same shape as output
+criterion = nn.MSELoss()
+
+loss = criterion(output, target)
+print(loss)
+```
+
+Out:
+```python
+tensor(1.3638, grad_fn=<MseLossBackward>)
+```
+
 ---
