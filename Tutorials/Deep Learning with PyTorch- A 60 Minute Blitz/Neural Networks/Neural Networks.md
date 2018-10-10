@@ -218,4 +218,37 @@ Out:
 tensor(1.3638, grad_fn=<MseLossBackward>)
 ```
 
+이제, `.grad_fn`를 사용하여 `loss`의 backward를 추적한다면, 다음과 비슷한 계산 그래프를 볼 수 있습니다.
+
+```python
+input -> conv2d -> relu -> maxpool2d -> conv2d -> relu -> maxpool2d
+      -> view -> linear -> relu -> linear -> relu -> linear
+      -> MSELoss
+      -> loss
+```
+
+따라서, `loss.backward()`를 호출하면 loss와 관련된 그래프가 구별됩니다. 또한 `requires_grad=True`인 모든 Tensor는 `.grad`인 Tensor가 기울기로 누적됩니다.
+[So, when we call loss.backward(), the whole graph is differentiated w.r.t. the loss, and all Tensors in the graph that has requires_grad=True will have their .grad Tensor accumulated with the gradient.]
+
+예를 들어, 몇 가지 단계로 backward를 진행해 봅시다.
+
+```python
+print(loss.grad_fn)  # MSELoss
+print(loss.grad_fn.next_functions[0][0])  # Linear
+print(loss.grad_fn.next_functions[0][0].next_functions[0][0])  # ReLU
+```
+
+Out:
+```python
+<MseLossBackward object at 0x7f0e86396a90>
+<ThAddmmBackward object at 0x7f0e863967b8>
+<ExpandBackward object at 0x7f0e863967b8>
+```
+
+### BACKPROP
+
+
+
+
+
 ---
