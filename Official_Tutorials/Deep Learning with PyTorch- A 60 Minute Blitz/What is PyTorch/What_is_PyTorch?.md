@@ -102,12 +102,23 @@ tensor([[1, 1, 1],
 위와 같이 tensor 변수는 데이터 타입이 'int32'로 선언되었습니다. PyTorch API가 제공하는 `new_ones` 메소드를 통해 동일한 데이터 타입을 갖는 5x3 Tensor가 만들어졌습니다. 다음 예제는 Tensor의 크기를 유지한 채 데이터 타입을 변경하는 `randn_like` 메소드를 살펴보겠습니다.
 
 ```python
+# zeros torch
+x = torch.zeros(5, 3, dtype=torch.float64)
+print(x)
+
+# random torch
 x = torch.randn_like(x, dtype=torch.float64)
 print(x)
 ```
 
 Out:
 ```python
+tensor([[0., 0., 0.],
+        [0., 0., 0.],
+        [0., 0., 0.],
+        [0., 0., 0.],
+        [0., 0., 0.]], dtype=torch.float64)
+
 tensor([[ 0.8878,  0.8595, -1.3904],
         [ 1.2738,  1.4750,  1.4978],
         [-0.1091,  3.4508, -0.1414],
