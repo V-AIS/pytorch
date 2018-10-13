@@ -5,7 +5,7 @@
 
 간단한 예제를 살펴보면, 숫자 이미지를 분류하는 네트워크는 다음과 같습니다.
 
-![](https://github.com/V-AIS/pytorch/blob/master/Official_Tutorials/Deep%20Learning%20with%20PyTorch-%20A%2060%20Minute%20Blitz/Neural_Networks/mnist.png)
+![](https://github.com/V-AIS/pytorch/blob/master/Official_Tutorials/Deep%20Learning%20with%20PyTorch-%20A%2060%20Minute%20Blitz/Neural%20Networks/mnist.png)
 
 단순한 피드 포워드 네트워크(Feed-Forward Network)입니다. 입력을 받아, 여러 레이어를 차례로 전달한 다음 최종적으로 출력을 제공합니다.
 
