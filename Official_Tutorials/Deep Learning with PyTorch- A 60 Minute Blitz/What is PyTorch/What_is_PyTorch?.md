@@ -80,7 +80,7 @@ Out:
 tensor([5.5000, 3.0000])
 ```
 
-또는, 이미 존재하는 Tensor를 기반으로 만들 수 있습니다. 이 방법은 이미 존재하는 Tensor의 특성(데이터 타입, Tensor 크기)를 다시 사용합니다. 명확한 이해를 위해 공식 문에서 하나의 예제로 진행한 부분을 두 개의 예제로 살펴보겠습니다.
+또는, 이미 존재하는 Tensor를 기반으로 만들 수 있습니다. 이 방법은 이미 존재하는 Tensor의 특성(데이터 타입, Tensor 크기)를 다시 사용합니다. 명확한 이해를 위해 공식 문서에서 하나의 예제로 진행한 부분을 두 개의 예제로 살펴보겠습니다.
 
 ```python
 tensor = torch.tensor((), dtype=torch.int32)
@@ -126,7 +126,7 @@ tensor([[ 0.8878,  0.8595, -1.3904],
         [ 1.1709, -0.9909,  1.3729]], dtype=torch.float64)
 ```
 
-앞서 선언한 5x3 Tensor 변수의 데이터 타입이 변경되는 것을 확인할 수 있습니다. 명확한 이해를 위해 `new_ones`와 `randn_like` 메소드 정의를 살펴보겠습니다. 
+앞서 선언한 5x3 Tensor 변수의 데이터 타입이 변경되는 것을 확인할 수 있습니다. 명확한 이해를 위해 `new_ones`와 `randn_like` 메소드 정의를 살펴보겠습니다.
 
 ```python
 new_ones(size, dtype=None, device=None, requires_grad=False) → Tensor
