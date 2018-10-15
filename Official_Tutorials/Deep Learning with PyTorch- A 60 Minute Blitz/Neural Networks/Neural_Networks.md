@@ -247,8 +247,75 @@ Out:
 
 ### BACKPROP
 
+오류를 BackPropagation하려면 `loss.backward()`를 사용하면 됩니다. Gradients가 기존 Gradients에 누적되려면 기존의 Gradients를 지워야 합니다.
+이제 `loss.backward()`를 호출하고, conv1의 bias Gradients 앞, 뒤 backward를 살펴보겠습니다.
+
+```python
+net.zero_grad()     # zeroes the gradient buffers of all parameters
+
+print('conv1.bias.grad before backward')
+print(net.conv1.bias.grad)
+
+loss.backward()
+
+print('conv1.bias.grad after backward')
+print(net.conv1.bias.grad)
+```
+
+Out:
+```python
+conv1.bias.grad before backward
+tensor([0., 0., 0., 0., 0., 0.])
+conv1.bias.grad after backward
+tensor([ 0.0181, -0.0048, -0.0229, -0.0138, -0.0088, -0.0107])
+```
+
+여기까지 손실 함수를 사용하는 방법을 살펴보았습니다.
+
+#### Read Later:
+- 신경망 패키지에는 다양한 신경망 모듈과 손실 함수가 포함되어 있습니다. 전체 설명서는 [여기](http://pytorch.org/docs/nn)를 살펴보세요.
+
+#### The only thing left to learn is:
+- 네트워크의 가중치를 업데이트 하는 방법
 
 
 
+### UPDATE THE WEIGHTS
+실제 사용하는 가장 간단한 업데이트 방법은 확률적 경사 하강법(Stochastic Gradient Descent, SGD)입니다.
 
----
+`weight = weight - learning rate * gradient`
+
+간단한 Python 코드는 다음과 같습니다.
+
+```python
+learning_rate = 0.01
+for f in net.parameters():
+    f.data.sub_(f.grad.data * learning_rate)
+```
+
+그러나, 실제 신경망을 사용하면 SGD, Nesterov-SGD, Adam, RMSProp 등과 같이 매우 다양한 업데이트 방법을 사용할 수 있습니다. 이러한 기능을 사용하기 위해 다음과 같이 작은 패키지(`torch.optim`)를 빌드했습니다. 이 패키지는 사용하기 매우 쉽습니다.
+
+```python
+import torch.optim as optim
+
+# create your optimizer
+optimizer = optim.SGD(net.parameters(), lr=0.01)
+
+# in your training loop:
+optimizer.zero_grad()   # zero the gradient buffers
+output = net(input)
+loss = criterion(output, target)
+loss.backward()
+optimizer.step()    # Does the update
+```
+
+#### Note
+
+Gradients 버퍼를 `optimizer.zero_grad()`를 사용하여 수동으로 0로 만드는 방법을 찾아보세요. 이것은 [Backprop](https://pytorch.org/tutorials/beginner/blitz/neural_networks_tutorial.html#backprop) 섹션에서 설명했던 것 처럼 Gradients가 누적되기 때문입니다.
+
+
+
+#### Official Tutorial Python Code
+- [Download Python Source Core: neural_networks_tutorials.py](https://pytorch.org/tutorials/_downloads/neural_networks_tutorial.py)
+- [Download Jupyter Notebook: neural_networks_tutorials.ipynb](https://pytorch.org/tutorials/_downloads/neural_networks_tutorial.ipynb)
+
