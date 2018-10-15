@@ -306,7 +306,6 @@ Out:
 
 위와 같이 torch.Tensor 형태의 데이터가 float 형태로 변경되는 것을 확인할 수 있습니다.
 
-
 ---
 
 ### NumPy Bridge
@@ -380,7 +379,7 @@ CharTensor를 제외한 모든 Tensors는 NumPy로 변경 또는 그 반대로 �
 
 ### CUDA Tensors
 
-Tensors는 `.to` 메소드를 통해 어떤 디바이스로 이동할 수 있습니다. **NVIDIA CUDA 필**
+Tensors는 `.to` 메소드를 통해 어떤 디바이스로 이동할 수 있습니다. **NVIDIA CUDA 필수**
 
 ```python
 # let us run this cell only if CUDA is available
@@ -399,3 +398,9 @@ Out:
 tensor([1.3797], device='cuda:0')
 tensor([1.3797], dtype=torch.float64)
 ```
+
+
+
+#### Official Tutorial Python Code
+- [Download Python Source Core: tensor_tutorial.py](https://pytorch.org/tutorials/_downloads/tensor_tutorial.py)
+- [Download Jupyter Notebook: tensor_tutorial.ipynb](https://pytorch.org/tutorials/_downloads/tensor_tutorial.ipynb)
