@@ -326,7 +326,7 @@ tensor([2., 2., 2., 2., 2.], dtype=torch.float64)
 
 CharTensor를 제외한 모든 Tensor는 NumPy로 변경 또는 그 반대로 변경하는 것을 지원합니다. (All the Tensors on the CPU except a CharTensor support converting to NumPy and back.)
 
----
+
 
 ### CUDA Tensors
 
